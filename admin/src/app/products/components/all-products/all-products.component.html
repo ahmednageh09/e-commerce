@@ -1,0 +1,60 @@
+<div class="box mt-5 cartBox">
+  <button type="button" class="btn btn-success mt-2" (click)="openDialog()">Add Product</button>
+  <table class="table table-striped">
+      <thead>
+          <tr class="text-center">
+              <th></th>
+              <th>Name</th>
+              <th>Category</th>
+              <th>Price</th>
+              <th></th>
+          </tr>
+      </thead>
+      <tbody>
+          <tr *ngFor="let item of products; let i = index">
+              <td><img src="{{item.image}}" alt=""></td>
+              <td>{{item.title}}</td>
+              <td>{{item.category}}</td>
+              <td>{{item.price}} L.E</td>
+              <td><button type="button" class="btn btn-warning" (click)="update(item)">Update</button></td>
+          </tr>
+      </tbody>
+  </table>
+</div>
+
+<ng-template #modal>
+  <div class="container mb-2">
+    <h5 mat-dialog-title class="headCart pt-3 mx-2" >Product Info</h5>
+  <div mat-dialog-content>
+    <form [formGroup]="form" >
+      <div class="row">
+          <div class="col-md-4 col-sm-12">
+              <label for="">Title</label>
+              <input type="text" formControlName="title" class="form-control" placeholder="title">
+          </div>
+          <div class="col-md-4 col-sm-12">
+              <label for="">Price</label>
+              <input type="number"  formControlName="price" class="form-control" placeholder="price">
+          </div>
+          <div class="col-md-4 col-sm-12">
+              <app-select [data]="categories" [title]="'Categories'" [all]="false" [select]="form.value.category" (selectedValue)="getSelectedCategory($event)"  ></app-select>
+          </div>
+          <div class="col-md-4 col-sm-12">
+              <label for="image">Image</label>
+              <img src="{{base64}}" alt="">
+              <input type="file" class="form-control" (change)="getImagePath($event)" >
+          </div>
+          <div class="col-md-8 col-sm-12">
+              <label for="image">Description</label>
+              <textarea  class="form-control"  formControlName="description" placeholder="type here .. "></textarea>
+          </div>
+      </div>
+      <div mat-dialog-actions class="d-flex justify-content-end mt-3">
+          <button class="btn btn-success mx-2" [disabled]="!form.valid" (click)="addProduct()">Add</button>
+          <button class="btn btn-secondary" (click)="closeDialog()">close</button>
+      </div>
+    </form>
+  </div>
+  </div>
+</ng-template>
+
